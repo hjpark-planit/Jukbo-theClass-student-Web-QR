@@ -108,9 +108,6 @@
     }
     
     .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       margin-bottom: 10px;
       padding-bottom: 8px;
       border-bottom: 1px solid #eee;
@@ -126,9 +123,10 @@
       font-size: 14px;
       font-weight: 600;
       color: #2c3e50;
+      margin-left: 12px;
     }
     
-    /* 정보 행 - 한 줄 레이아웃 */
+    /* 정보 행 */
     .info-row {
       display: flex;
       gap: 6px;
@@ -147,6 +145,10 @@
       font-size: 15px;
       font-weight: 500;
       color: #333;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     /* 배포그룹 - 파스텔 블루 */
@@ -323,8 +325,7 @@
         html += `
           <div class="card">
             <div class="card-header">
-              <span class="student-name">${s['이름'] || ''}</span>
-              <span class="student-school">${s['학교'] || ''} ${s['학년'] || ''}</span>
+              <span class="student-name">${s['이름'] || ''}</span><span class="student-school">${s['학교'] || ''} ${s['학년'] || ''}</span>
             </div>
             <div class="info-row">
               <div class="info-item">${teacher}</div>
