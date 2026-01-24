@@ -233,7 +233,9 @@
   </div>
 
   <script>
+    // CSV URLs
     const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUuL0HCxQ8QYKa5MFvpOVAavdsi8FIO4PwfpHqq7EVmEsiF3dU0RPpZODAlPYhEvj0nCdVtYuPm1fy/pub?gid=0&single=true&output=csv';
+    const LOG_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUuL0HCxQ8QYKa5MFvpOVAavdsi8FIO4PwfpHqq7EVmEsiF3dU0RPpZODAlPYhEvj0nCdVtYuPm1fy/pub?gid=1155032572&single=true&output=csv';
     
     let studentData = [];
     let headers = [];
@@ -249,19 +251,30 @@
     // CSV 데이터 로드
     async function loadData() {
       try {
+        // 1. 업로드 기록에서 최신 시간 가져오기
+        try {
+          const logResponse = await fetch(LOG_CSV_URL);
+          const logText = await logResponse.text();
+          const logRows = logText.split('\n').filter(row => row.trim());
+          
+          if (logRows.length >= 2) {
+            // 2행이 가장 최신 시간 (1행은 헤더)
+            const latestTime = logRows[1].trim();
+            document.getElementById('updateTime').innerText = 'updated: ' + latestTime;
+          }
+        } catch (e) {
+          // 업로드 기록 실패해도 계속 진행
+          const now = new Date();
+          const timeStr = now.toLocaleString('ko-KR', {
+            month: 'numeric', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', hour12: false
+          });
+          document.getElementById('updateTime').innerText = 'loaded: ' + timeStr;
+        }
+        
+        // 2. 학생 데이터 가져오기
         const response = await fetch(CSV_URL);
         const text = await response.text();
-        
-        // 데이터 로드 시간 표시
-        const now = new Date();
-        const timeStr = now.toLocaleString('ko-KR', {
-          month: 'numeric',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false
-        });
-        document.getElementById('updateTime').innerText = 'updated: ' + timeStr;
         
         // CSV 파싱
         const rows = text.split('\n').filter(row => row.trim());
