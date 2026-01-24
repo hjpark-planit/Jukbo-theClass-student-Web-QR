@@ -99,11 +99,11 @@
       gap: 8px;
     }
     
-    /* 카드 - 컴팩트 */
+    /* 카드 */
     .card {
       background: white;
       border-radius: 10px;
-      padding: 12px;
+      padding: 12px 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     
@@ -111,24 +111,24 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       padding-bottom: 8px;
       border-bottom: 1px solid #eee;
     }
     
     .student-name {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
       color: #2c3e50;
     }
     
     .student-school {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: #2c3e50;
     }
     
-    /* 정보 행 */
+    /* 정보 행 - 한 줄 레이아웃 */
     .info-row {
       display: flex;
       gap: 6px;
@@ -142,20 +142,10 @@
     .info-item {
       flex: 1;
       background: #f8f9fa;
-      padding: 8px;
+      padding: 10px 12px;
       border-radius: 6px;
-      text-align: center;
-    }
-    
-    .info-label {
-      font-size: 10px;
-      color: #888;
-      margin-bottom: 2px;
-    }
-    
-    .info-value {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 500;
       color: #333;
     }
     
@@ -163,32 +153,25 @@
     .group-item {
       background: linear-gradient(135deg, #e8f4fd 0%, #d4ecfc 100%);
       border: 1px solid #b8daf5;
-    }
-    
-    .group-item .info-label {
-      color: #4a90d9;
-    }
-    
-    .group-item .info-value {
-      font-size: 18px;
-      font-weight: 700;
       color: #2874a6;
+    }
+    
+    .group-item .group-number {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a5276;
     }
     
     /* 족보ID - 파스텔 그린 */
     .id-item {
       background: linear-gradient(135deg, #e8f8f0 0%, #d4f2e4 100%);
       border: 1px solid #a9dfbf;
-    }
-    
-    .id-item .info-label {
-      color: #27ae60;
-    }
-    
-    .id-item .info-value {
-      font-size: 13px;
-      font-weight: 700;
       color: #1e8449;
+    }
+    
+    .id-item .id-value {
+      font-weight: 700;
+      letter-spacing: 1px;
     }
     
     /* 상태 메시지 */
@@ -196,7 +179,7 @@
       text-align: center;
       padding: 25px;
       color: #888;
-      font-size: 13px;
+      font-size: 14px;
     }
     
     .loading {
@@ -209,7 +192,7 @@
     
     /* 카운트 */
     .result-count {
-      font-size: 12px;
+      font-size: 13px;
       color: #888;
       margin-bottom: 8px;
     }
@@ -332,6 +315,11 @@
       let html = `<div class="result-count">${results.length}명의 결과</div>`;
       
       results.forEach(s => {
+        const teacher = s['선생님'] ? s['선생님'] + 'T' : '-';
+        const subject = s['과목'] || '-';
+        const group = s['배포그룹'] || '-';
+        const jokboId = s['족보ID'] || '-';
+        
         html += `
           <div class="card">
             <div class="card-header">
@@ -339,24 +327,12 @@
               <span class="student-school">${s['학교'] || ''} ${s['학년'] || ''}</span>
             </div>
             <div class="info-row">
-              <div class="info-item">
-                <div class="info-label">선생님</div>
-                <div class="info-value">${s['선생님'] || '-'}</div>
-              </div>
-              <div class="info-item">
-                <div class="info-label">과목</div>
-                <div class="info-value">${s['과목'] || '-'}</div>
-              </div>
+              <div class="info-item">${teacher}</div>
+              <div class="info-item">${subject}</div>
             </div>
             <div class="info-row">
-              <div class="info-item group-item">
-                <div class="info-label">배포그룹</div>
-                <div class="info-value">${s['배포그룹'] || '-'}</div>
-              </div>
-              <div class="info-item id-item">
-                <div class="info-label">족보ID</div>
-                <div class="info-value">${s['족보ID'] || '-'}</div>
-              </div>
+              <div class="info-item group-item">그룹 &nbsp;&nbsp;<span class="group-number">${group}</span></div>
+              <div class="info-item id-item">족보ID &nbsp;&nbsp;<span class="id-value">${jokboId}</span></div>
             </div>
           </div>
         `;
